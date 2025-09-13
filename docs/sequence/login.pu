@@ -1,0 +1,29 @@
+@startuml login
+
+actor user
+participant App
+participant Login
+participant API
+activate App
+user -> Login: input user
+activate Login
+Login ->> API: POST /login
+activate API
+alt OK
+API -->> Login: user
+Login -> App: setUser
+App -> App: useEffect: user
+activate App
+App ->> API: GET /conversations
+activate API
+API ->> App: Conversations
+deactivate API
+App -> App: setConversations
+deactivate App
+else NG
+API -->> Login: err
+end
+
+
+
+@enduml
