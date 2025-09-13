@@ -1,12 +1,52 @@
-import { useState } from "react";
-import type { Message, User } from "../common/dataStruct";
+import { useState, useEffect } from "react";
+import { useParams, Navigate } from "react-router-dom";
+import type { Message } from "../common/dataStruct";
 import MessageBlock from "./MessageBlock";
 import { useUser } from "../common/Context";
+import apiClient from "../api/client";
 
 
-const ChatRoom = ({ messages, sendMessage }: { messages: Message[] | null, sendMessage: (postMessage: string, postUser: User) => Promise<void> }) => {
+const ChatRoom = () => {
+	const [messages, setMessages] = useState<Message[] | null>(null)
 	const [text, setText] = useState("");
 	const { user } = useUser();
+	const { id } = useParams();                 // URL から取得
+	const conversationId = Number(id);
+
+	useEffect(() => {
+		(async () => {
+			try {
+				console.log(`/conversations/${conversationId}/messages`);
+				const res = await apiClient.get<Message[]>(`/conversations/${conversationId}/messages`, {
+					params: { limit: 20, offset: 0 }
+				});
+				setMessages(res.data);
+			} catch (err) {
+				console.error("API error:", err);
+			}
+		})();
+	}, [conversationId]);
+
+	if (!id || Number.isNaN(conversationId)) {
+		return <Navigate to="/conversations" replace />;
+	}
+
+
+
+	const sendMessage = async () => {
+		// messagesの投稿
+		try {
+			const res = await apiClient.post<Message>(`/conversations/${conversationId}/messages`, {
+				user: user,
+				body: text
+			});
+			setText("");
+			// 追加したメッセージをstateに反映
+			setMessages((prev) => prev ? [...prev, res.data] : [res.data]);
+		} catch (err) {
+			console.error("API error:", err);
+		}
+	}
 
 	return (
 		<div className="container mt-5">
@@ -24,7 +64,7 @@ const ChatRoom = ({ messages, sendMessage }: { messages: Message[] | null, sendM
 				/>
 				{user !== null && (
 					<button
-						onClick={() => sendMessage(text, user)}
+						onClick={() => sendMessage()}
 						className="btn btn-primary ms-2"
 					>
 						送信
