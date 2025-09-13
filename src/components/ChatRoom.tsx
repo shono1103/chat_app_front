@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Navigate } from "react-router-dom";
-import type { Message, ApiConversation } from "../common/dataStruct";
+import type { Message } from "../common/dataStruct";
 import MessageBlock from "./MessageBlock";
 import { useUser } from "../common/Context";
 import apiClient from "../api/client";
@@ -18,7 +18,7 @@ const ChatRoom = () => {
 			try {
 				console.log(`/conversations/${conversationId}/messages`);
 				const res = await apiClient.get<Message[]>(`/conversations/${conversationId}/messages`, {
-					params: { limit: 20, ofset: 0 }
+					params: { limit: 20, offset: 0 }
 				});
 				setMessages(res.data);
 			} catch (err) {
@@ -36,20 +36,13 @@ const ChatRoom = () => {
 	const sendMessage = async () => {
 		// messagesの投稿
 		try {
-			await apiClient.post<ApiConversation[]>(`/conversations/${conversationId}/messages`, {
+			const res = await apiClient.post<Message>(`/conversations/${conversationId}/messages`, {
 				user: user,
 				body: text
 			});
 			setText("");
-		} catch (err) {
-			console.error("API error:", err);
-		}
-		// messagesの更新
-		try {
-			const res = await apiClient.get<Message[]>(`/conversations/${conversationId}/messages`, {
-				params: { limit: 20, ofset: 0 }
-			});
-			setMessages(res.data);
+			// 追加したメッセージをstateに反映
+			setMessages((prev) => prev ? [...prev, res.data] : [res.data]);
 		} catch (err) {
 			console.error("API error:", err);
 		}
