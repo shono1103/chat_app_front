@@ -1,6 +1,7 @@
 import { useState } from "react";
 import apiClient from "../api/client";
 import type { User } from "../common/dataStruct"
+import { Link } from "react-router-dom";
 
 const Login = ({ onLogin }: { onLogin: (token: User) => void }) => {
 	const [email, setEmail] = useState("");
@@ -45,6 +46,8 @@ const Login = ({ onLogin }: { onLogin: (token: User) => void }) => {
 				/>
 				<button type="submit" className="btn btn-primary">ログイン</button>
 			</form>
+
+			<Link to="/signup">新規ユーザー登録へ</Link>
 		</div>
 	);
 };
