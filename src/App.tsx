@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useState } from "react";
 import React from "react";
 import Login from "./components/Login";
+import Signup from "./components/Signup";
 import Conversations from "./components/Conversations";
 import ChatRoom from "./components/ChatRoom";
 import type { User } from "./common/dataStruct";
@@ -24,6 +25,14 @@ function App() {
 					path="/"
 					element={
 						user ? <Navigate to="/conversations" replace /> : <Login onLogin={setUser} />
+					}
+				/>
+
+				{/* サインアップ画面 */}
+				<Route
+					path="/signup"
+					element={
+						<Signup />
 					}
 				/>
 
