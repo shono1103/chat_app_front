@@ -51,14 +51,14 @@ const Signup = () => {
 					className="form-control mb-2"
 				/>
 				<input
-					type="confirmationPwd"
+					type="password"
 					placeholder="パスワード(確認用)"
 					value={confirmationPwd}
 					onChange={(e) => setConfirmationPwd(e.target.value)}
 					className="form-control mb-2"
 				/>
 				<input
-					type="display_name"
+					type="text"
 					placeholder="表示される名前"
 					value={display_name}
 					onChange={(e) => setDisplayName(e.target.value)}
