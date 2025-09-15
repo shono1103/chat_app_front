@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Tailwind 出力ファイル（ビルド成果物）
+src/tailwind.css
+
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

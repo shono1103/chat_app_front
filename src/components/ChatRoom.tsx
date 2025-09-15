@@ -49,30 +49,46 @@ const ChatRoom = () => {
 	}
 
 	return (
-		<div className="container mt-5">
-			<h2>チャット</h2>
-			<div className="border p-3 mb-3" style={{ height: "300px", overflowY: "scroll" }}>
-				{messages && messages.map((m) => (
-					<MessageBlock key={m.id} message={m} />
-				))}
-			</div>
-			<div className="d-flex">
-				<input
-					value={text}
-					onChange={(e) => setText(e.target.value)}
-					className="form-control"
-				/>
-				{user !== null && (
-					<button
-						onClick={() => sendMessage()}
-						className="btn btn-primary ms-2"
-					>
-						送信
-					</button>
-				)}
+		<div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-10 px-4">
+			<div className="mx-auto w-full max-w-2xl">
+				<div className="bg-white dark:bg-gray-800/60 backdrop-blur rounded-2xl shadow-xl ring-1 ring-black/5 dark:ring-white/10 p-6 sm:p-8 flex flex-col h-[600px]">
+					<h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-4">
+						チャット
+					</h2>
+
+					{/* メッセージリスト */}
+					<div className="flex-1 overflow-y-auto space-y-3 pr-2 mb-4">
+						{messages && messages.map((m) => (
+							<MessageBlock key={m.id} message={m} />
+						))}
+					</div>
+
+					{/* 入力エリア */}
+					<div className="flex items-center space-x-2">
+						<input
+							value={text}
+							onChange={(e) => setText(e.target.value)}
+							placeholder="メッセージを入力..."
+							className="flex-1 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900/60 text-gray-900 dark:text-gray-100 px-4 py-2.5
+							focus:outline-none focus:ring-4 focus:ring-indigo-200 dark:focus:ring-indigo-900/40 focus:border-indigo-500
+							placeholder:text-gray-400 dark:placeholder:text-gray-500"
+						/>
+						{user !== null && (
+							<button
+								onClick={() => sendMessage()}
+								className="inline-flex items-center justify-center rounded-xl bg-indigo-600 text-white font-semibold px-4 py-2.5
+								hover:bg-indigo-700 active:bg-indigo-800 transition
+								focus:outline-none focus:ring-4 focus:ring-indigo-200 dark:focus:ring-indigo-900/40"
+							>
+								送信
+							</button>
+						)}
+					</div>
+				</div>
 			</div>
 		</div>
 	);
+
 };
 
 export default ChatRoom;

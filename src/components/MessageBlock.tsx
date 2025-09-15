@@ -7,17 +7,27 @@ const MessageBlock = ({ message }: { message: Message }) => {
 	console.log(isMine);
 
 	return (
-		<div className="mb-2 d-flex">
+		<div className={`mb-2 flex ${isMine ? "justify-end" : "justify-start"}`}>
 			<div
-				className=
-				{`message-block d-inline-block p-2 rounded-3 ${isMine ? "ms-auto bg-primary text-white" : "me-auto bg-light"}`}
-				style={{ maxWidth: "75%" }}
+				className={`inline-block px-3 py-2 rounded-2xl shadow-sm
+        ${isMine
+						? "bg-indigo-600 text-white rounded-br-none"
+						: "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-bl-none"
+					} max-w-[75%]`}
 			>
-				<div className="small text-muted">{message.user.display_name}</div>
-				<div className={isMine ? "text-end" : "text-start"}>{message.body}</div>
+				{/* 発言者名 */}
+				<div className="text-xs text-gray-200 dark:text-gray-400 mb-1">
+					{message.user.display_name}
+				</div>
+
+				{/* メッセージ本文 */}
+				<div className={isMine ? "text-right" : "text-left"}>
+					{message.body}
+				</div>
 			</div>
 		</div>
 	);
+
 };
 
 export default MessageBlock
