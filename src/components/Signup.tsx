@@ -101,7 +101,7 @@ const Signup = () => {
 							</label>
 							<input
 								type="text"
-								placeholder="例）さえき しょうの"
+								placeholder="例）さいき しょうの"
 								value={display_name}
 								onChange={(e) => setDisplayName(e.target.value)}
 								className="mt-2 w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900/60 text-gray-900 dark:text-gray-100 px-4 py-2.5

@@ -16,7 +16,13 @@ const MessageBlock = ({ message }: { message: Message }) => {
 					} max-w-[75%]`}
 			>
 				{/* 発言者名 */}
-				<div className="text-xs text-gray-200 dark:text-gray-400 mb-1">
+				<div
+					className={`text-xs mb-1 ${
+						isMine
+							? "text-white dark:text-white"
+							: "text-gray-800 dark:text-gray-100"
+					}`}
+				>
 					{message.user.display_name}
 				</div>
 
